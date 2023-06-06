@@ -94,7 +94,7 @@ if __name__ == "__main__":
 
     print("Configuring the WebDriver...")
     opt = webdriver.chrome.options.Options()
-    opt.headless = False
+    opt.add_argument('--headless')
 
     print("Starting the WebDriver...")
     driver = uc.Chrome(options=opt)
