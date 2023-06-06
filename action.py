@@ -1,11 +1,12 @@
 import os
 import re
+import time
 
 import undetected_chromedriver as uc
 from selenium import webdriver
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-
 
 class Action:
     account_email_address: str
@@ -47,16 +48,22 @@ class Action:
         assert extension.lower() in (".rar", ".zip", ".7z", ".exe", ".omod")
 
     def login(self, driver):
-        driver.get("https://users.nexusmods.com/auth/sign_in")
+        driver.get("https://nexusmods.com/users/myaccount")
+
+        driver.find_element(By.ID, "login").click()
 
         try:
-            driver.find_element(By.ID, "user_login")
+            print("Attempting to verify captcha...")
+            captcha_box = driver.find_element(By.XPATH, '//*[@id="turnstile-wrapper"]/div')
+            time.sleep(5)
+            actions = ActionChains(driver)
+            actions.move_by_offset(captcha_box.location['x'] + 24, captcha_box.location['y'] + 24).click().perform()
         except:
-            driver.find_element(By.ID, "user_login").send_keys(self.username)
-            driver.find_element(By.ID, "password").send_keys(self.password)
-            driver.find_element(By.NAME, "commit").click()
-        else:
-            raise ValueError("Cloudflare?")
+            print("Captcha verification not required...")
+
+        driver.find_element(By.ID, "user_login").send_keys(self.account_email_address)
+        driver.find_element(By.ID, "password").send_keys(self.account_password)
+        driver.find_element(By.NAME, "commit").click()
 
         try:
             driver.find_element(By.XPATH, "//*[contains(text(), 'Invalid Login')]")
@@ -98,11 +105,14 @@ if __name__ == "__main__":
     action = Action()
 
     print("Configuring the WebDriver...")
-    opt = webdriver.chrome.options.Options()
-    opt.add_argument('--headless')
+    options = webdriver.chrome.options.Options()
+
+    options.add_argument('--headless')
+    options.add_argument('--disable-blink-features=AutomationControlled')
 
     print("Starting the WebDriver...")
-    driver = uc.Chrome(version_main=113, options=opt)
+    driver = uc.Chrome(version_main=113, options=options)
+    #driver = webdriver.Chrome() # For debugging locally
     driver.implicitly_wait(30)
 
     print("Logging in to Nexus...")
