@@ -1,0 +1,63 @@
+name: "nexusmods_update"
+description: "Updates mods on Nexus."
+inputs:
+  account_email_address:
+    description: "The email address of the Nexus account."
+    required: true
+
+  account_password:
+    description: "The password of yhe Nexus account."
+    required: true
+
+  nexus_game_id:
+    description: "The Nexus domain name of the game."
+    required: true
+
+  nexus_mod_id:
+    description: "The Nexus ID of the mod."
+    required: true
+
+  mod_file_name:
+    description: "The display name of the file."
+    required: true
+
+  mod_version:
+    description: "The version of the mod."
+    required: true
+
+  file_description:
+    description: "The 255-long description of the file."
+    required: false
+
+  file_path:
+    description: "Path to the archive to be uploaded. Maximum size: 20GB."
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+
+    - run: pip install selenium
+      shell: bash
+
+    - run: pip install undetected-chromedriver
+      shell: bash
+
+    - run: pip install fake-useragent
+      shell: bash
+
+    - uses: browser-actions/setup-chrome@latest
+
+    - run: python ${{github.action_path}}/action.py
+      shell: bash
+      env:
+        ACCOUNT_EMAIL_ADDRESS: ${{inputs.account_email_address}}
+        ACCOUNT_PASSWORD: ${{inputs.account_password}}
+        NEXUS_GAME_ID: ${{inputs.nexus_game_id}}
+        NEXUS_MOD_ID: ${{inputs.nexus_mod_id}}
+        MOD_FILE_NAME: ${{inputs.mod_file_name}}
+        MOD_VERSION: ${{inputs.mod_version}}
+        FILE_DESCRIPTION: ${{inputs.file_description}}
+        FILE_PATH: ${{inputs.file_path}}
