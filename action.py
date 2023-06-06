@@ -97,7 +97,7 @@ if __name__ == "__main__":
     opt.add_argument('--headless')
 
     print("Starting the WebDriver...")
-    driver = uc.Chrome(options=opt)
+    driver = uc.Chrome(opt)
     driver.implicitly_wait(30)
 
     print("Logging in to Nexus...")
