@@ -45,11 +45,6 @@ runs:
     - run: pip install undetected-chromedriver
       shell: bash
 
-    - run: pip install fake-useragent
-      shell: bash
-
-    - uses: browser-actions/setup-chrome@latest
-
     - run: python ${{github.action_path}}/action.py
       shell: bash
       env:

@@ -49,9 +49,14 @@ class Action:
     def login(self, driver):
         driver.get("https://users.nexusmods.com/auth/sign_in")
 
-        driver.find_element(By.ID, "user_login").send_keys(self.username)
-        driver.find_element(By.ID, "password").send_keys(self.password)
-        driver.find_element(By.NAME, "commit").click()
+        try:
+            driver.find_element(By.ID, "user_login")
+        except:
+            driver.find_element(By.ID, "user_login").send_keys(self.username)
+            driver.find_element(By.ID, "password").send_keys(self.password)
+            driver.find_element(By.NAME, "commit").click()
+        else:
+            raise ValueError("Cloudflare?")
 
         try:
             driver.find_element(By.XPATH, "//*[contains(text(), 'Invalid Login')]")
@@ -97,7 +102,7 @@ if __name__ == "__main__":
     opt.add_argument('--headless')
 
     print("Starting the WebDriver...")
-    driver = uc.Chrome(opt)
+    driver = uc.Chrome(version_main=113, options=opt)
     driver.implicitly_wait(30)
 
     print("Logging in to Nexus...")
