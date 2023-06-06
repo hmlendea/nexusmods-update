@@ -88,10 +88,9 @@ class Action:
         else:
             raise ValueError("Original file not found!")
 
-        driver.find_element(By.NAME, "remove-old-version").click()
-        driver.find_element(By.NAME, "brief-overview").send_keys(self.file_description)
-        driver.find_element(By.NAME, "set_as_main_nmm").click()
-        driver.find_element(By.NAME, "requirements_pop_up").click()
+        driver.find_element(By.ID, "remove-old-version").click()
+        driver.find_element(By.ID, "file-description").send_keys(self.file_description)
+        driver.find_element(By.ID, "option-requirements").click()
         driver.find_element(By.ID, "add_file_browse").find_elements(By.XPATH, ".//*")[0].send_keys(os.path.abspath(self.file_path))
 
         WebDriverWait(driver, 1500).until(lambda x: x.find_element(By.ID, "upload_success").is_displayed())
@@ -115,7 +114,7 @@ if __name__ == "__main__":
     #driver = webdriver.Chrome() # For debugging locally
     driver.implicitly_wait(30)
 
-    print("Logging in to Nexus...")
+    print("Logging into Nexus...")
     action.login(driver)
 
     print("Updating the mod...")
