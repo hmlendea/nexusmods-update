@@ -90,7 +90,12 @@ class Action:
 
         driver.find_element(By.ID, "remove-old-version").click()
         driver.find_element(By.ID, "file-description").send_keys(self.file_description)
-        driver.find_element(By.ID, "option-requirements").click()
+
+        try:
+            driver.find_element(By.ID, "option-requirements").click()
+        except:
+            pass
+
         driver.find_element(By.ID, "add_file_browse").find_elements(By.XPATH, ".//*")[0].send_keys(os.path.abspath(self.file_path))
 
         WebDriverWait(driver, 1500).until(lambda x: x.find_element(By.ID, "upload_success").is_displayed())
