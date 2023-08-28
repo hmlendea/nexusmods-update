@@ -115,7 +115,7 @@ if __name__ == "__main__":
     options.add_argument('--disable-blink-features=AutomationControlled')
 
     print("Starting the WebDriver...")
-    driver = uc.Chrome(version_main=116, options=options)
+    driver = uc.Chrome(version_main=115, options=options)
     #driver = webdriver.Chrome() # For debugging locally
     driver.implicitly_wait(30)
 
