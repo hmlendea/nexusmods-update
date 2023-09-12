@@ -117,7 +117,7 @@ if __name__ == "__main__":
     print("Starting the WebDriver...")
     driver = uc.Chrome(version_main=115, options=options)
     #driver = webdriver.Chrome() # For debugging locally
-    driver.implicitly_wait(30)
+    driver.implicitly_wait(60)
 
     print("Logging into Nexus...")
     action.login(driver)
