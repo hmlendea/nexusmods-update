@@ -4,9 +4,11 @@ import time
 
 import undetected_chromedriver as uc
 from selenium import webdriver
+#from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
+#from webdriver_manager.chrome import ChromeDriverManager
 
 class Action:
     account_email_address: str
@@ -52,17 +54,19 @@ class Action:
 
         driver.find_element(By.ID, "login").click()
 
-        try:
-            print("Attempting to verify captcha...")
-            captcha_box = driver.find_element(By.XPATH, '//*[@id="turnstile-wrapper"]/div')
-            time.sleep(5)
-            actions = ActionChains(driver)
-            actions.move_by_offset(captcha_box.location['x'] + 24, captcha_box.location['y'] + 24).click().perform()
-        except:
-            print("Captcha verification not required...")
-
         driver.find_element(By.ID, "user_login").send_keys(self.account_email_address)
         driver.find_element(By.ID, "password").send_keys(self.account_password)
+
+        captcha_is_required=False
+        try:
+            captcha_box = driver.find_element(By.ID, 'turnstile-wrapper')
+            captcha_is_required=True
+        except Exception as ex:
+            captcha_is_required=False
+
+        if captcha_is_required:
+            raise Exception("Captcha is required")
+
         driver.find_element(By.NAME, "commit").click()
 
         try:
@@ -116,7 +120,11 @@ if __name__ == "__main__":
 
     print("Starting the WebDriver...")
     driver = uc.Chrome(version_main=117, options=options)
-    #driver = webdriver.Chrome() # For debugging locally
+
+    # For debugging locally
+    #driver = webdriver.Chrome()
+    #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+
     driver.implicitly_wait(60)
 
     print("Logging into Nexus...")
