@@ -112,12 +112,15 @@ if __name__ == "__main__":
     print("Validating the input parameters...")
     action = Action()
 
+    user_agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+
     print("Configuring the WebDriver...")
     options = webdriver.chrome.options.Options()
 
     options.add_argument('--headless')
     options.add_argument("--use_subprocess")
     options.add_argument('--disable-blink-features=AutomationControlled')
+    options.add_argument(f"user-agent={user_agent}")
 
     print("Starting the WebDriver...")
     driver = uc.Chrome(version_main=119, options=options)
