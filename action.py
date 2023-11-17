@@ -125,7 +125,7 @@ if __name__ == "__main__":
     #driver = webdriver.Chrome()
     #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
-    driver.implicitly_wait(60)
+    driver.implicitly_wait(30)
 
     print("Logging into Nexus...")
     action.login(driver)
