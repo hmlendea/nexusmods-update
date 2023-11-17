@@ -22,14 +22,14 @@ class Action:
 
     def __init__(self):
         """Initialise and validate the input parameters passed via the environment variables."""
-        self.account_email_address = os.environ["ACCOUNT_EMAIL_ADDRESS"]
-        self.account_password = os.environ["ACCOUNT_PASSWORD"]
-        self.nexus_game_id = os.environ["NEXUS_GAME_ID"]
-        self.nexus_mod_id = os.environ["NEXUS_MOD_ID"]
-        self.mod_file_name = os.environ["MOD_FILE_NAME"]
-        self.mod_version = os.environ["MOD_VERSION"]
-        self.file_description = os.environ["FILE_DESCRIPTION"]
-        self.file_path = os.environ["FILE_PATH"]
+        self.account_email_address = "More-Cultural-Names.7edo1@Aleeas.com"
+        self.account_password = "pZC*2mzS#dXL5RYCq*grYdcz8nB21$VjZ@Y$OyjkU7YG6npNM@@XyyhgxXaxEj1%EuDLn2YF6p3re7VywowxibJTEE0Oho6jzsh1ia6$v3ndobG7$uKRgHq4q7$gnQ%u"
+        self.nexus_game_id = "crusaderkings2"
+        self.nexus_mod_id = "70"
+        self.mod_file_name = "more-cultural-names"
+        self.mod_version = "v23.320.0"
+        self.file_description = "Version 23.320.0"
+        self.file_path = "mcn_CK2_23.320.0.zip"
 
         assert self.account_email_address, "The account's email address cannot be empty"
         assert self.account_password, "The account's password cannot be empty"
@@ -116,7 +116,6 @@ if __name__ == "__main__":
     options = webdriver.chrome.options.Options()
 
     options.add_argument('--headless')
-    options.add_argument("--use_subprocess")
     options.add_argument('--disable-blink-features=AutomationControlled')
 
     print("Starting the WebDriver...")
@@ -126,7 +125,7 @@ if __name__ == "__main__":
     #driver = webdriver.Chrome()
     #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
-    driver.implicitly_wait(30)
+    driver.implicitly_wait(60)
 
     print("Logging into Nexus...")
     action.login(driver)
