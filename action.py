@@ -116,6 +116,7 @@ if __name__ == "__main__":
     options = webdriver.chrome.options.Options()
 
     options.add_argument('--headless')
+    options.add_argument("--use_subprocess")
     options.add_argument('--disable-blink-features=AutomationControlled')
 
     print("Starting the WebDriver...")
